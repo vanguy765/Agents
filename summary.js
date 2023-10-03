@@ -7,8 +7,6 @@ import { RetrievalQAChain } from 'langchain/chains'
 const llm = new ChatOpenAI({ modelName: 'gpt-3.5-turbo' })
 
 export async function summary(data) {
-  console.log(data)
-
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 5000,
     chunkOverlap: 1000,
@@ -16,7 +14,6 @@ export async function summary(data) {
 
   const splitted = await textSplitter.createDocuments([data])
 
-  console.log('splitted:', splitted)
   const vectorStore = await MemoryVectorStore.fromDocuments(
     splitted,
     new OpenAIEmbeddings(),
@@ -25,8 +22,10 @@ export async function summary(data) {
   const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever())
 
   const response = await chain.call({
-    query: 'Can you provide a summary of the content?',
+    query:
+      'Please summarize the content, focusing on the roles and significance of the persons mentioned by name.',
   })
 
+  console.log('RESPONSE', response)
   return response
 }
