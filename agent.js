@@ -1,13 +1,15 @@
-import { scrapeWebsite } from './scrape.js'
-import { summary } from './summary.js'
-;(async () => {
-  try {
-    const scrappingResult = await scrapeWebsite(
-      'https://klugeundschlaak.de/beste-chatgpt-prompts-fuers-taegliche-arbeiten',
-    )
-    const summaryResult = await summary(scrappingResult)
-    console.log('Summary:', summaryResult)
-  } catch (error) {
-    console.error('An error occurred:', error)
-  }
-})()
+import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { initializeAgentExecutorWithOptions } from 'langchain/agents'
+import { SearchTool } from './search.js'
+
+const tools = [new SearchTool()]
+
+const chat = new ChatOpenAI({ modelName: 'gpt-4', temperature: 0 })
+
+const executor = await initializeAgentExecutorWithOptions(tools, chat, {
+  agentType: 'openai-functions',
+  verbose: true,
+})
+
+const result = await executor.run('Search for Kluge & Schlaak GmbH')
+console.log(result)
