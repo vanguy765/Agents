@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Research Agent</title>
+  </head>
+  <body>
+    <input type="text" id="name" placeholder="Bob Foe" />
+    <input type="text" id="company" placeholder="Whatever Inc." />
+    <button id="analyze">Analyze</button>
+    <div id="result"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io()
+
+      document.getElementById('analyze').addEventListener('click', () => {
+        const name = document.getElementById('name').value
+        const company = document.getElementById('company').value
+
+        socket.emit('analyze', name, company)
+      })
+
+      socket.on('showResult', (data) => {
+        document.getElementById('result').innerHTML = data
+      })
+    </script>
+  </body>
+</html>
