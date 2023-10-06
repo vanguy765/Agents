@@ -5,7 +5,7 @@ import { ScrapeWebsiteTool } from './scrape.js'
 import { MyCallbackHandler } from './callback_handler.js'
 import { SystemMessage } from 'langchain/schema'
 
-export async function research(name, company) {
+export async function research(name) {
   const tools = [new SearchTool(), new ScrapeWebsiteTool()]
 
   const chat = new ChatOpenAI({ modelName: 'gpt-4', temperature: 0 })
@@ -39,7 +39,7 @@ export async function research(name, company) {
     },
   })
 
-  const result = await executor.run(`Who is ${name} of ${company}`)
+  const result = await executor.run(`On a scale from 1 to 10, please assess the worth of a the inquiry and prospect: ${name}. Give a confident answer based on your research on google (even if you are not 100% sure).`)
 
   return result
 }

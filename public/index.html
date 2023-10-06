@@ -15,7 +15,7 @@
         const name = document.getElementById('name').value
         const company = document.getElementById('company').value
 
-        socket.emit('analyze', name, company)
+        socket.emit('research', name, company)
       })
 
       socket.on('showResult', (data) => {
