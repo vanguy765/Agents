@@ -5,7 +5,7 @@ import { ScrapeWebsiteTool } from './scrape.js'
 import { MyCallbackHandler } from './callback_handler.js'
 import { SystemMessage } from 'langchain/schema'
 
-export async function analyze(name, company) {
+export async function research(name, company) {
   const tools = [new SearchTool(), new ScrapeWebsiteTool()]
 
   const chat = new ChatOpenAI({ modelName: 'gpt-4', temperature: 0 })
